@@ -127,29 +127,6 @@ defaultSetting = Setting_
 
 --
 
--- data ValueParserType = ValueParserInt | ValueParserBool | ValueParserInvertBool | ValueParserText
--- 
--- data OptionType = OptionType
---   { _shortKey_ :: Maybe Char
---   , _longKey_  :: Maybe Text
---   , _valueParserType_ :: ValueParserType
---   , _field_ :: Optic' k NoIx (Setting_ s Last) (Last v)
---   } deriving (Generic)
--- 
--- makeLenses ''OptionType
--- 
--- optionTypes :: [OptionType]
--- optionTypes = [ OptionType (Just 'n') Nothing              ValueParserInt
---               , OptionType (Just 'l') (Just "len")         ValueParserInt
---               , OptionType Nothing (Just "symbol")         ValueParserText
---               , OptionType Nothing (Just "alpha-upper")    ValueParserBool
---               , OptionType Nothing (Just "no-alpha-upper") ValueParserInvertBool
---               , OptionType Nothing (Just "alpha-lower")    ValueParserBool
---               , OptionType Nothing (Just "no-alpha-lower") ValueParserInvertBool
---               ]
-
---
-
 type Parser = Parsec Text Text
 
 parserRedundantOption :: Parser (Setting_ s Last)
@@ -371,8 +348,8 @@ main = do
     Just x  -> pure x
 
   let rest = T.intercalate " " $ case args of { [] -> []; (_:t) -> t }
-  T.putStrLn [i|#{subcommand} #{rest}|]
-  parseTest parserSetting rest
+  -- T.putStrLn [i|#{subcommand} #{rest}|]
+  -- parseTest parserSetting rest
 
   let settingEither = parseSetting rest
   Last settingMaybe <- case settingEither of
