@@ -1,0 +1,10 @@
+dist
+dist-newstyle
+
+*.eventlog
+
+.ghc.environment*
+
+cabal.project.local
+
+tags
