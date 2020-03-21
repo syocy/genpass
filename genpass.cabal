@@ -54,3 +54,16 @@ executable genpass
                      , ghc-compact
   default-language:    Haskell2010
   ghc-options:         -Wall -Wcompat -O -fomit-interface-pragmas -eventlog -rtsopts
+
+benchmark bench-genpass
+  type:                exitcode-stdio-1.0
+  main-is:             bench-genpass.hs
+  build-depends:       base >=4.13 && <4.14
+                     , genpass
+                     , gauge >=0.2
+                     , ghc-compact
+                     , optics >=0.2
+                     , silently
+                     , deepseq
+                     , process
+  ghc-options:         -O1

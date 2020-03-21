@@ -54,6 +54,7 @@ data Setting_ (s :: SubCommand) (f :: Type -> Type) = Setting_
   , _verbose_ :: f Int
   , _help_ :: f Bool
   , _rest_ :: f Text
+  , _debugMode_ :: f Int
   } deriving (Generic, FunctorB, TraversableB, ApplicativeB, ConstraintsB)
 
 makeLenses ''Setting_
@@ -86,5 +87,6 @@ defaultSetting = Setting_
   , _verbose_    = Last $ Just 0
   , _help_       = Last $ Just False
   , _rest_       = Last $ Just T.empty
+  , _debugMode_  = Last $ Just 0
   }
 

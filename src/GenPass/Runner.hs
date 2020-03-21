@@ -103,10 +103,12 @@ parserLongOption = do
                                 , parserDigit, parserNoDigit
                                 , parserHiragana, parserNoHiragana
                                 , parserKatakana, parserNoKatakana
+                                , parserDebugMode
                                 ]
     where
       parserLen          = parserKeyValue (string "len")            decimal         len_
       parserKind         = parserKeyValue (string "kind")           decimal         kind_
+      parserDebugMode    = parserKeyValue (string "debug-mode")     decimal         debugMode_
       parserSymbol       = parserKeyValue (string "symbol")         parserSandwitch syms_
       parserAlphaUpper   = parserKey      (string "alpha-upper")    True            alphaUpper_
       parserNoAlphaUpper = parserKey      (string "no-alpha-upper") False           alphaUpper_
@@ -151,10 +153,28 @@ composeInts = reverse . composeInts' []
 --
 
 runSetting :: SubCommand -> Setting s -> IO ()
-runSetting Version s = runVersionSetting $ coerce s
-runSetting Gen     s = (runGenSetting . getCompact) =<< compact (coerce s)
-runSetting Check   s = runCheckSetting   $ coerce s
-runSetting sub     _ = T.hPutStrLn stderr [i|subcommand #{sub} is not implemented|] >> exitFailure
+runSetting sub s =
+  case view debugMode_ s of
+    1 -> runSetting_NoCompact sub s
+    2 -> runSetting_CoerceAfterCompact sub s
+    3 -> runSetting' sub s
+    _ -> runSetting' sub s
+
+runSetting' :: SubCommand -> Setting s -> IO ()
+runSetting' Version s = runVersionSetting $ coerce s
+runSetting' Gen     s = (runGenSetting . getCompact) =<< compact (coerce s)
+runSetting' Check   s = runCheckSetting   $ coerce s
+runSetting' sub     _ = T.hPutStrLn stderr [i|subcommand #{sub} is not implemented|] >> exitFailure
+
+-- for benchmark
+runSetting_NoCompact :: SubCommand -> Setting s -> IO ()
+runSetting_NoCompact Gen s = runGenSetting $ coerce s
+runSetting_NoCompact sub _ = T.hPutStrLn stderr [i|subcommand #{sub} is not implemented|] >> exitFailure
+
+-- for benchmark
+runSetting_CoerceAfterCompact :: SubCommand -> Setting s -> IO ()
+runSetting_CoerceAfterCompact Gen s = runGenSetting . coerce . getCompact =<< compact s
+runSetting_CoerceAfterCompact sub _ = T.hPutStrLn stderr [i|subcommand #{sub} is not implemented|] >> exitFailure
 
 runVersionSetting :: Setting 'Version -> IO ()
 runVersionSetting _ = putStrLn $ showVersion version
@@ -162,9 +182,10 @@ runVersionSetting _ = putStrLn $ showVersion version
 runGenSetting :: Setting 'Gen -> IO ()
 runGenSetting setting =
   let n   :: Int         = coerce $ view n_   setting in
-  let len :: Int         = coerce $ view len_ setting in
+  -- let len :: Int         = coerce $ view len_ setting in
   let rs  :: [Range Int] = makeCpSetting      setting in
   replicateM_ n $ do
+    let len :: Int = coerce $ view len_ setting -- for benchmark
     ws <- M.unpack @M.Bytes <$> getRandomBytes (4 * len)
     let xs = composeInts ws
     let str = map (chr . rangesMod rs) xs
