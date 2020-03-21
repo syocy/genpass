@@ -25,7 +25,6 @@ library
                      , GenPass.Setting
                      , Paths_genpass
   other-modules:       Paths_pkgname
-                     -- , Paths_genpass
   autogen-modules:     Paths_genpass
   hs-source-dirs:      src
   build-depends:       base >=4.13 && <4.14
