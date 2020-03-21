@@ -5,6 +5,7 @@
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE DataKinds, KindSignatures #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
 module GenPass.Runner where
 
@@ -38,7 +39,15 @@ import Data.Char
 
 --
 
-type Parser = Parsec Text Text
+newtype MyParseError = MyParseError { unMyParseError :: Text }
+  deriving (Show, Eq, Ord)
+
+instance ShowErrorComponent MyParseError where
+  showErrorComponent = T.unpack . coerce
+
+--
+
+type Parser = Parsec MyParseError Text
 
 parserRedundantOption :: Parser (Setting_ s Last)
 parserRedundantOption = do
@@ -120,7 +129,7 @@ parserSetting = do
   settings <- (try parserRedundantOption <|> try parserBatchOption <|> try parserShortOption <|> try parserLongOption <|> parserRest) `sepBy` (P.some spaceChar)
   pure $ foldl (<>) mempty settings
 
-parseSetting :: Text -> Either (ParseErrorBundle Text Text) (Setting_ s Last)
+parseSetting :: Text -> Either (ParseErrorBundle Text MyParseError) (Setting_ s Last)
 parseSetting = parse parserSetting ""
 
 --
@@ -138,11 +147,6 @@ composeInts = reverse . composeInts' []
       let !r = fromIntegral $ composeWord32 w1 w2 w3 w4 in
         composeInts' (r:result) xs
     composeInts' result _ = result
-
---
-
-instance ShowErrorComponent Text where
-  showErrorComponent = T.unpack
 
 --
 
