@@ -2,14 +2,14 @@
 
 module Main where
 
-import GenPass
+import           GenPass
 
 import qualified Data.Text as T
 import qualified Data.Text.IO as T
-import Data.Monoid
-import System.Environment
-import System.Exit
-import System.IO
+import           Data.Monoid
+import           System.Environment
+import           System.Exit
+import           System.IO
 
 --
 

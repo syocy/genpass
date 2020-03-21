@@ -7,15 +7,15 @@
 
 module GenPass.Setting where
 
-import Optics
-import GHC.Generics
-import Data.Kind (Type)
-import Data.Text (Text)
+import           Barbies
+import           Data.Functor.Identity
+import           Data.Kind (Type)
+import           Data.Monoid
+import           Data.Text (Text)
 import qualified Data.Text as T
-import Barbies
-import Data.Monoid
-import Data.Functor.Identity
-import Generics.Deriving.Monoid
+import           GHC.Generics
+import           Generics.Deriving.Monoid
+import           Optics
 
 --
 

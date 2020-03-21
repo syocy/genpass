@@ -2,15 +2,15 @@
 
 module GenPass.Cp where
 
-import GenPass.Setting
+import           GenPass.Setting
 
-import Data.Text (Text)
+import           Data.Text (Text)
 import qualified Data.Text as T
-import Data.Range
-import Data.Char
-import Optics
-import Data.Coerce (coerce)
-import Data.Functor.Identity
+import           Data.Range
+import           Data.Char
+import           Optics
+import           Data.Coerce (coerce)
+import           Data.Functor.Identity
 
 cpLower, cpUpper, cpDigit, cpHira, cpKata :: Range Int
 cpLower = ord 'a' +=+ ord 'z'

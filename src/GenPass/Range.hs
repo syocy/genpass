@@ -1,7 +1,7 @@
 module GenPass.Range where
 
-import Data.Range
 import Data.List (foldl')
+import Data.Range
 
 rangeSize :: Range Int -> Int
 rangeSize (SingletonRange _) = 1
@@ -28,9 +28,9 @@ rangesMod ranges n =
   let idx = n `mod` sum ss in
   snd $ foldl' f (idx, -1) $ zip ranges ss
   where
-    f (idx', -1) (SingletonRange x, _)                | idx' < 1  = (  idx',      x)
+    f (idx', -1) (SingletonRange x               , _) | idx' < 1  = (    -1,      x)
                                                       | otherwise = (idx'-1,     -1)
-    f (idx', -1) (SpanRange (Bound x Inclusive) _, s) | idx' < s  = (  idx', idx'+x)
+    f (idx', -1) (SpanRange (Bound x Inclusive) _, s) | idx' < s  = (    -1, idx'+x)
                                                       | otherwise = (idx'-s,     -1)
     f (   _, -1) _                                                = error "unsupported range type"
-    f (idx',  r) _                                                = (  idx',      r)
+    f (   _,  r) _                                                = (    -1,      r)

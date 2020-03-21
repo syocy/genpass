@@ -9,33 +9,33 @@
 
 module GenPass.Runner where
 
-import GenPass.Cp
-import GenPass.Range
-import GenPass.Setting
-import Paths_pkgname
+import           GenPass.Cp
+import           GenPass.Range
+import           GenPass.Setting
+import           Paths_pkgname
 
-import Data.Text (Text)
+import           Control.Monad
+import           Crypto.Random
+import           Data.Bits (shiftL)
+import qualified Data.ByteArray as M
+import           Data.Char
+import           Data.Coerce (coerce)
+import           Data.Functor.Identity
+import           Data.Monoid
+import           Data.Range
+import           Data.String.Interpolate
+import           Data.Text (Text)
 import qualified Data.Text as T
 import qualified Data.Text.IO as T
-import Text.Megaparsec as P
-import Text.Megaparsec.Char as P
-import Text.Megaparsec.Char.Lexer as P hiding (space)
-import Data.Monoid
-import Data.Word
-import Optics
-import Data.String.Interpolate
-import Data.Range
-import qualified Data.ByteArray as M
-import Control.Monad
-import Data.Coerce (coerce)
-import GHC.Compact
-import Data.Bits (shiftL)
-import System.IO
-import System.Exit
-import Data.Version (showVersion)
-import Data.Functor.Identity
-import Crypto.Random
-import Data.Char
+import           Data.Version (showVersion)
+import           Data.Word
+import           GHC.Compact
+import           Optics
+import           System.Exit
+import           System.IO
+import           Text.Megaparsec as P
+import           Text.Megaparsec.Char as P
+import           Text.Megaparsec.Char.Lexer as P hiding (space)
 
 --
 
