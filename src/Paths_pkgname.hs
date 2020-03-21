@@ -1,26 +1,28 @@
-module Paths_genpass where
+module Paths_pkgname where
 
 -- Dummy file for flycheck to find Paths_pkgname module
 
 import Data.Version
 
+import Paths_genpass as P
+
 version :: Version
-version = undefined
+version = P.version
 
 getBinDir :: IO FilePath
-getBinDir = undefined
+getBinDir = P.getBinDir
 
 getLibDir :: IO FilePath
-getLibDir = undefined
+getLibDir = P.getLibDir
 
 getDynLibDir :: IO FilePath
-getDynLibDir = undefined
+getDynLibDir = P.getDynLibDir
 
 getDataDir :: IO FilePath
-getDataDir = undefined
+getDataDir = P.getDataDir
 
 getLibexecDir :: IO FilePath
-getLibexecDir = undefined
+getLibexecDir = P.getLibexecDir
 
 getSysconfDir :: IO FilePath
-getSysconfDir = undefined
+getSysconfDir = P.getSysconfDir

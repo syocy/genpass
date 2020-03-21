@@ -1,7 +1,7 @@
 cabal-version:       3.0
 
 name:                genpass
-version:             0.1.0.0
+version:             0.1.0.1
 synopsis:            Command Line Tool to Generate/Check Passwords with Some Rules
 description:         Command Line Tool to Generate/Check Passwords with Some Rules
 homepage:            https://github.com/syocy/genpass
@@ -18,19 +18,17 @@ extra-source-files:  CHANGELOG.md
                    , README.md
 
 library
-  exposed-modules:     Paths_genpass
+  exposed-modules:     GenPass
+                     , GenPass.Cp
+                     , GenPass.Range
+                     , GenPass.Runner
+                     , GenPass.Setting
+                     , Paths_genpass
+  other-modules:       Paths_pkgname
+                     -- , Paths_genpass
+  autogen-modules:     Paths_genpass
   hs-source-dirs:      src
   build-depends:       base >=4.13 && <4.14
-  default-language:    Haskell2010
-  ghc-options:         -Wall -Wcompat -O0
-
-executable genpass
-  main-is:             Main.hs
-  other-modules:       Paths_genpass
-  autogen-modules:     Paths_genpass
-  -- other-extensions:
-  build-depends:       base >=4.13 && <4.14
-                     , genpass
                      , barbies >=2.0
                      , generic-deriving
                      , cryptonite >=0.26
@@ -42,6 +40,18 @@ executable genpass
                      , string-interpolate
                      , range
                      , deepseq
+                     , ghc-compact
+  default-language:    Haskell2010
+  ghc-options:         -Wall -Wcompat -O -fomit-interface-pragmas -eventlog
+
+executable genpass
+  main-is:             Main.hs
+  -- other-extensions:
+  build-depends:       base >=4.13 && <4.14
+                     , genpass
+                     , text
+                     , optics >=0.2
+                     , string-interpolate
                      , ghc-compact
   default-language:    Haskell2010
   ghc-options:         -Wall -Wcompat -O -fomit-interface-pragmas -eventlog -rtsopts

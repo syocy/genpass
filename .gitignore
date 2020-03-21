@@ -2,6 +2,8 @@ dist
 dist-newstyle
 
 *.eventlog
+*.prof
+prof.html
 
 .ghc.environment*
 
