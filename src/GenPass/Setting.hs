@@ -4,6 +4,7 @@
 {-# LANGUAGE StandaloneDeriving #-}
 {-# LANGUAGE DataKinds, KindSignatures #-}
 {-# LANGUAGE FlexibleInstances, UndecidableInstances #-}
+{-# LANGUAGE StrictData #-}
 
 module GenPass.Setting where
 
